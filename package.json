@@ -3,11 +3,16 @@
     "version": "0.0.0",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
+        "start": "node server.js",
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",
-        "e2e": "ng e2e"
+        "e2e": "ng e2e",
+        "heroku-postbuild": "ng build --prod"
+    },
+    "engines": {
+        "node": "10.15.3",
+        "npm": "6.9.0"
     },
     "private": true,
     "dependencies": {
@@ -23,6 +28,8 @@
         "@nebular/eva-icons": "5.1.0",
         "@nebular/theme": "^5.1.0",
         "eva-icons": "^1.1.2",
+        "express": "^4.17.1",
+        "path": "^0.12.7",
         "rxjs": "~6.5.4",
         "tslib": "^1.10.0",
         "zone.js": "~0.10.2"
