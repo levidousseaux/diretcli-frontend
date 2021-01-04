@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col text-right">
+        <a type="button">
+            <nb-icon icon="plus-outline" (click)="SetDialogItem(null); open(dialog)"></nb-icon>
+        </a>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col">
+        <table class="table bg-transparent text-basic">
+            <thead>
+                <tr>
+                    <th scope="col"><a>ID</a></th>
+                    <th scope="col"><a>Nome</a></th>
+                    <th scope="col" class="text-center">Alterar</th>
+                    <th scope="col" class="text-center">Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let disease of diseases">
+                    <td>{{disease.id}}</td>
+                    <td>{{disease.name}}</td>
+                    <td class="text-center">
+                        <a type="button" (click)="SetDialogItem(disease); open(dialog)">
+                            <nb-icon icon="edit-outline"></nb-icon>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a type="button" (click)="DeleteDisease(disease.id)">
+                            <nb-icon icon="close-circle-outline"></nb-icon>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #dialog let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>{{title}}</nb-card-header>
+        <nb-card-body>
+            <input type="text" nbInput fullWidth [(ngModel)]="dialogItem.name" shape="round" placeholder="Digite o nome da doença" class="mb-3">
+        </nb-card-body>
+        <nb-card-footer>
+            <div class="text-right">
+                <button nbButton outline size="medium" shape="round" status="basic" (click)="ref.close()" class="mr-2">Cancelar</button>
+                <button nbButton outline size="medium" shape="round" status="info" (click)="SubmitDisease(); ref.close()">Concluir</button>
+            </div>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>

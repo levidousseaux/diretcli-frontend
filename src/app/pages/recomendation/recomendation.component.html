@@ -1,0 +1,89 @@
+<div class="row">
+    <div class="col">
+        <nb-select placeholder="Escolhe a doença desejada" [(ngModel)]="selectedDisease" (selectedChange)="GetRecomendations(); SetDiseaseName()">
+            <nb-option *ngFor='let disease of diseases' value={{disease.id}}>
+                {{disease.name}}
+            </nb-option>
+        </nb-select>
+    </div>
+    <div class="col text-right mr-2">
+        <a type="button" (click)="SetDialogItem(null); open(dialog)">
+            <nb-icon icon="plus-outline"></nb-icon>
+        </a>
+    </div>
+</div>
+
+<div class="row mt-3" *ngFor="let type of types">
+    <div class="col-12">
+        <nb-accordion #accordion>
+            <nb-accordion-item>
+                <nb-accordion-item-header>{{type}}</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div class="row" *ngFor="let recomendation of GetRecomendationsByType(type)">
+                        <div class="col-12">
+                            <nb-card>
+                                <nb-card-header>
+                                    <div class="row">
+                                        <div class="col">
+                                            Recomendação Nº{{recomendation.sequence}}
+                                        </div>
+                                        <div class="col text-right">
+                                            <a type="button" (click)="SetDialogItem(recomendation); open(dialog)" class="mr-2">
+                                                <nb-icon icon="edit-outline"></nb-icon>
+                                            </a>
+                                            <a type="button" (click)="DeleteRecomendation(recomendation)">
+                                                <nb-icon icon="close-circle-outline"></nb-icon>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </nb-card-header>
+                                <nb-card-body>
+                                    {{recomendation.value}}
+                                </nb-card-body>
+                            </nb-card>
+                        </div>
+                    </div>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+        </nb-accordion>
+    </div>
+</div>
+
+<ng-template #dialog let-ref="dialogRef">
+    <div class="row justify-content-center">
+        <div class="col-md-9 col-9">
+            <nb-card>
+                <nb-card-header>{{title}}</nb-card-header>
+                <nb-card-body>
+                    <div class="mb-3">
+
+                        <input type="text" *ngIf="accordionType == 'edit'" nbInput fullWidth shape="round" [(ngModel)]="selectedDiseaseName" disabled>
+
+                        <nb-select fullWidth shape="round" *ngIf="accordionType == 'create'" [(ngModel)]="dialogItem.id_disease">
+                            <nb-option *ngFor='let disease of diseases' value={{disease.id}}>
+                                {{disease.name}}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+
+                    <input type="number" nbInput fullWidth shape="round" [(ngModel)]="dialogItem.sequence" placeholder="Digite a ordem da recomendação" class="mb-3">
+
+                    <nb-select fullWidth shape="round" [(ngModel)]="dialogItem.type" placeholder="Escolha o tipo de recomendação" class="mb-3">
+                        <nb-option *ngFor='let type of types' value={{type}}>
+                            {{type}}
+                        </nb-option>
+                    </nb-select>
+
+                    <textarea type="text" nbInput fullWidth shape="round" [(ngModel)]="dialogItem.value" placeholder="Escreva sobre a recomendação" class="mb-3"></textarea>
+
+                </nb-card-body>
+                <nb-card-footer>
+                    <div class="text-right">
+                        <button nbButton outline size="medium" shape="round" status="basic" (click)="ref.close()" class="mr-2">Cancelar</button>
+                        <button nbButton outline size="medium" shape="round" status="info" (click)="SubmitRecomendation(); ref.close()">Concluir</button>
+                    </div>
+                </nb-card-footer>
+            </nb-card>
+        </div>
+    </div>
+</ng-template>

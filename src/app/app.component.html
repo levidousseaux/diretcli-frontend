@@ -1,0 +1,24 @@
+<nb-layout>
+    <nb-layout-header fixed>
+        <div class="header-container">
+            <div class="logo-container">
+                <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+                    <nb-icon icon="menu-2-outline"></nb-icon>
+                </a>
+            </div>
+        </div>
+        <div class="header-container ml-auto mr-2">
+            <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
+                <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
+            </nb-select>
+        </div>
+    </nb-layout-header>
+    <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
+        <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
+    </nb-sidebar>
+    <nb-layout-column>
+        <div class="container-fluid">
+            <router-outlet></router-outlet>
+        </div>
+    </nb-layout-column>
+</nb-layout>
