@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Recomendation } from '../models/recomendation.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,21 +11,21 @@ export class RecomendationService {
   constructor(private http: HttpClient) { }
 
   GetRecomendationByDisease(diseaseId: number): Promise<Recomendation[]>  {
-    return this.http.get<Recomendation[]>(`http://localhost:8080/recomendations/${diseaseId}`).toPromise()
+    return this.http.get<Recomendation[]>(`${environment.backend_endpoint}/recomendations/${diseaseId}`).toPromise()
   }
 
   CreateRecomendation(recomendation: Recomendation): Promise<any> {
     console.log(recomendation)
-    return this.http.post('http://localhost:8080/create_recomendation', recomendation).toPromise()
+    return this.http.post(`${environment.backend_endpoint}/create_recomendation`, recomendation).toPromise()
   }
 
 
   UpdateRecomendation(recomendation: Recomendation): Promise<any>  {
-    return this.http.put('http://localhost:8080/update_recomendation', recomendation).toPromise()
+    return this.http.put(`${environment.backend_endpoint}/update_recomendation`, recomendation).toPromise()
   }
 
   DeleteRecomendation(recomendation: Recomendation): Promise<any>  {
-    return this.http.delete(`http://localhost:8080/delete_recomendation/${recomendation.id}`).toPromise()
+    return this.http.delete(`${environment.backend_endpoint}/delete_recomendation/${recomendation.id}`).toPromise()
   }
 
 }
