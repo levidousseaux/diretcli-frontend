@@ -1,7 +1,9 @@
 export class Recomendation {
   id: number
   id_disease: number
-  type: string
+  category: string
+  subcategory: string
   sequence: number
+  title: string
   value: string
 }

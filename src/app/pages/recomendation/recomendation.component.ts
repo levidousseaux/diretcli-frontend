@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbWindowRef, NbWindowService } from '@nebular/theme';
+import { Subcategory } from 'src/app/models/subcategory';
 import { Disease } from 'src/app/models/disease.model';
 import { Recomendation } from 'src/app/models/recomendation.model';
 import { DiseaseService } from 'src/app/services/disease.service';
@@ -8,23 +9,24 @@ import { RecomendationService } from 'src/app/services/recomendation.service';
 @Component({
   selector: 'app-recomendation',
   templateUrl: './recomendation.component.html',
-  styleUrls: ['./recomendation.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./recomendation.component.scss'],
 })
 export class RecomendationComponent implements OnInit {
 
   @ViewChild('accordion') accordion
   diseases: Disease[]
-  recomendations: Recomendation[]
+  recomendations: Recomendation[] = []
+  selectedSubcategory: string
   selectedDisease: number
   dialogItem: Recomendation
   createItem: Recomendation
   title: string
   accordionType: string
+  recomendationMap: Map<string, Subcategory[]> = new Map<string, Subcategory[]>()
   selectedDiseaseName: string
-  types = ["Rastreio", "Diagnóstico", "Tratamento", "Monitoramento", "Comorbidade", "Idoso"]
+  windowRef: NbWindowRef
 
-  constructor(private diseaseService: DiseaseService, private recomendationService: RecomendationService, private dialogService: NbDialogService) { }
+  constructor(private diseaseService: DiseaseService, private recomendationService: RecomendationService, private dialogService: NbDialogService, private windowService: NbWindowService) { }
 
   ngOnInit(): void {
     this.GetDiseases()
@@ -34,18 +36,8 @@ export class RecomendationComponent implements OnInit {
     this.diseaseService.GetAllDisease().then(response => { this.diseases = response })
   }
 
-  GetRecomendations() {
-    this.recomendationService.GetRecomendationByDisease(this.selectedDisease).then(response => {
-      this.recomendations = response
-      this.accordion.closeAll()
-    })
-  }
-
-  GetRecomendationsByType(type: string): Recomendation[] {
-    if (this.recomendations) {
-      return this.recomendations.filter(recomendation => recomendation.type === type)
-    }
-    return null
+  async GetRecomendations() {
+    await this.recomendationService.GetRecomendationByDisease(this.selectedDisease).then(res => this.recomendationMap = res)
   }
 
   SetDiseaseName() {
@@ -65,9 +57,15 @@ export class RecomendationComponent implements OnInit {
     }
   }
 
+  SetRecomendationDialog(recomendations: Recomendation[]) {
+    this.recomendations = recomendations
+    this.selectedSubcategory = recomendations[0]?.subcategory
+  }
+
   async DeleteRecomendation(recomendation: Recomendation) {
     await this.recomendationService.DeleteRecomendation(recomendation)
     this.GetRecomendations()
+    this.windowRef.close()
   }
   async SubmitRecomendation() {
     if (this.accordionType == 'create') {
@@ -75,14 +73,20 @@ export class RecomendationComponent implements OnInit {
     } else {
       await this.recomendationService.UpdateRecomendation(this.dialogItem)
     }
-    this.GetRecomendations()
+    this.windowRef.close()
+    await this.GetRecomendations()
+
   }
 
   open(dialog: TemplateRef<any>) {
     this.dialogService.open(dialog, {
       context: {
         title: 'This is a title passed to the dialog component',
-      },
+      }
     });
+  }
+
+  openWindow(dialog: TemplateRef<any>) {
+    this.windowRef = this.windowService.open(dialog, { title: this.selectedSubcategory });
   }
 }

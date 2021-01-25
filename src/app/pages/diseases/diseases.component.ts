@@ -29,12 +29,6 @@ export class DiseasesComponent implements OnInit {
     this.diseaseService.GetAllDisease().then(response => { this.diseases = response })
   }
 
-  GetRecomendations() {
-    this.recomendationService.GetRecomendationByDisease(this.selectedDisease).then(response => {
-      this.recomendations = response
-    })
-  }
-
   async SubmitDisease() {
     if (this.accordionType == 'create') {
       await this.diseaseService.CreateDisease(this.dialogItem)
