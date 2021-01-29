@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbMenuModule, NbIconModule, NbSelectModule, NbOptionModule, NbDialogModule, NbWindowModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbMenuModule, NbIconModule, NbSelectModule, NbOptionModule, NbDialogModule, NbWindowModule, NbToastrModule } from '@nebular/theme';
 import { PagesModule } from './pages/pages.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentsModule } from './components/components.module';
@@ -22,6 +22,7 @@ import { ComponentsModule } from './components/components.module';
     NbThemeModule.forRoot(),
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
+    NbToastrModule.forRoot(),
     NbIconModule,
     NbSelectModule,
     NbLayoutModule,

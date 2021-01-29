@@ -11,15 +11,13 @@
         <table class="table bg-transparent text-basic">
             <thead>
                 <tr>
-                    <th scope="col"><a>ID</a></th>
                     <th scope="col"><a>Nome</a></th>
-                    <th scope="col" class="text-center">Alterar</th>
-                    <th scope="col" class="text-center">Excluir</th>
+                    <th scope="col" class="text-center"><a>Alterar</a></th>
+                    <th scope="col" class="text-center"><a>Excluir</a></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let disease of diseases">
-                    <td>{{disease.id}}</td>
                     <td>{{disease.name}}</td>
                     <td class="text-center">
                         <a type="button" (click)="SetDialogItem(disease); open(dialog)">

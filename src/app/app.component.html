@@ -1,16 +1,14 @@
-<nb-layout>
+<nb-layout *ngIf="this.authService.isLoggedIn">
     <nb-layout-header fixed>
         <div class="header-container">
             <div class="logo-container">
-                <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+                <a type="button" (click)="toggleSidebar()" class="sidebar-toggle">
                     <nb-icon icon="menu-2-outline"></nb-icon>
                 </a>
             </div>
         </div>
         <div class="header-container ml-auto mr-2">
-            <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
-                <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
-            </nb-select>
+            <img src="../assets/images/SUS.png" class="ml-3" alt="" style="width: 150px; height: auto;">
         </div>
     </nb-layout-header>
     <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
@@ -22,3 +20,7 @@
         </div>
     </nb-layout-column>
 </nb-layout>
+
+<div *ngIf="!this.authService.isLoggedIn">
+    <app-login></app-login>
+</div>

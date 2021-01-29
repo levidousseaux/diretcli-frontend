@@ -1,0 +1,10 @@
+<div class="row">
+    <div class="col">
+        <nb-select placeholder="Escolhe a doença desejada" [(ngModel)]="selectedDisease">
+            <nb-option *ngFor='let disease of diseases' value={{disease.id}}>
+                {{disease.name}}
+            </nb-option>
+        </nb-select>
+        <label class="btn btn-primary ml-3">Importar arquivo<input type="file" style="display: none;" (change)="onFileChange($event)" accept=".xlsx"></label>
+    </div>
+</div>

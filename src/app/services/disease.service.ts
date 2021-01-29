@@ -15,15 +15,15 @@ export class DiseaseService {
   }
 
   CreateDisease(disease: Disease): Promise<any> {
-    return this.http.post(`${environment.backend_endpoint}/create_disease`, disease).toPromise()
+    return this.http.post(`${environment.backend_endpoint}/diseases/create`, disease).toPromise()
   }
 
   UpdateDisease(disease: Disease): Promise<any>  {
-    return this.http.put(`${environment.backend_endpoint}/update_disease`, disease).toPromise()
+    return this.http.put(`${environment.backend_endpoint}/diseases/update`, disease).toPromise()
   }
 
   DeleteDisease(id: number): Promise<any>  {
-    return this.http.delete(`${environment.backend_endpoint}/delete_disease/${id}`).toPromise()
+    return this.http.delete(`${environment.backend_endpoint}/diseases/delete/${id}`).toPromise()
   }
 
 }

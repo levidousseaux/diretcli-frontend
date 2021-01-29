@@ -39,17 +39,19 @@ export class RecomendationService {
   }
 
   CreateRecomendation(recomendation: Recomendation): Promise<any> {
-    console.log(recomendation)
-    return this.http.post(`${environment.backend_endpoint}/create_recomendation`, recomendation).toPromise()
+    return this.http.post(`${environment.backend_endpoint}/recomendations/create`, recomendation, {observe: 'response'}).toPromise()
   }
 
+  CreateRecomendations(recomendations: Recomendation[]): Promise<any> {
+    return this.http.post(`${environment.backend_endpoint}/recomendations/import`, recomendations, {observe: 'response'}).toPromise()
+  }
 
   UpdateRecomendation(recomendation: Recomendation): Promise<any>  {
-    return this.http.put(`${environment.backend_endpoint}/update_recomendation`, recomendation).toPromise()
+    return this.http.put(`${environment.backend_endpoint}/recomendations/update`, recomendation, {observe: 'response'}).toPromise()
   }
 
   DeleteRecomendation(recomendation: Recomendation): Promise<any>  {
-    return this.http.delete(`${environment.backend_endpoint}/delete_recomendation/${recomendation.id}`).toPromise()
+    return this.http.delete(`${environment.backend_endpoint}/recomendations/delete/${recomendation.id}`, {observe: 'response'}).toPromise()
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NbSidebarService, NbThemeService } from '@nebular/theme';
 import { MENU_ITEMS } from './app-menu';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,37 +10,16 @@ import { MENU_ITEMS } from './app-menu';
 })
 export class AppComponent implements OnInit {
   menu = MENU_ITEMS
-  themes = [
-    {
-      value: 'default',
-      name: 'Light',
-    },
-    {
-      value: 'dark',
-      name: 'Dark',
-    },
-    {
-      value: 'cosmic',
-      name: 'Cosmic',
-    }
-  ];
-
-  currentTheme = 'default';
 
   constructor(private sidebarService: NbSidebarService,
-              private themeService: NbThemeService,) {
-    this.themeService.onThemeChange()
-          .subscribe((theme: any) => {
-            console.log(`Theme changed to ${theme.name}`);
-          });
+              public authService: AuthService) {
   }
 
   ngOnInit() {
-    this.currentTheme = this.themeService.currentTheme;
   }
 
-  changeTheme(themeName: string) {
-    this.themeService.changeTheme(themeName);
+  isLoggedIn() {
+    return this.authService.isLoggedIn;
   }
 
   toggleSidebar(): boolean {
