@@ -19,7 +19,7 @@ import { ComponentsModule } from './components/components.module';
     HttpClientModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
-    NbThemeModule.forRoot(),
+    NbThemeModule.forRoot({name: 'dark'}),
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),

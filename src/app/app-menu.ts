@@ -9,12 +9,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Recomendações',
-    icon: 'home-outline',
+    icon: 'book-open-outline',
     link: '/recomendation',
   },
   {
+    title: 'Importar',
+    icon: 'folder-add-outline',
+    link: '/import',
+  },
+  {
     title: 'Configurações',
-    icon: 'layout-outline',
+    icon: 'settings-2-outline',
     link: '/settings',
   },
 ];

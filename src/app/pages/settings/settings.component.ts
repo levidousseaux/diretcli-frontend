@@ -25,10 +25,7 @@ export class SettingsComponent implements OnInit {
 
   currentTheme = 'default';
 
-  constructor(private themeService: NbThemeService) {
-    this.themeService.changeTheme('default');
-
-   }
+  constructor(private themeService: NbThemeService) {   }
 
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
