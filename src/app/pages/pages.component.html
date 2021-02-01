@@ -1,0 +1,20 @@
+<nb-layout>
+    <nb-layout-header>
+        <div class="header-container">
+            <div class="logo-container">
+                <a type="button" (click)="toggleSidebar()" class="sidebar-toggle">
+                    <nb-icon icon="menu-2-outline"></nb-icon>
+                </a>
+            </div>
+        </div>
+        <div class="header-container ml-auto mr-2">
+            <img src="../assets/images/SUS.png" class="ml-3" alt="" style="width: 150px; height: auto;">
+        </div>
+    </nb-layout-header>
+    <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
+        <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
+    </nb-sidebar>
+    <nb-layout-column>
+        <router-outlet></router-outlet>
+    </nb-layout-column>
+</nb-layout>

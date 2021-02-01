@@ -1,9 +1,6 @@
 <div class="row">
-    <div class="col text-right">
-        <h5>Selecionar tema</h5>
-    </div>
-    <div class="col text-left">
-        <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
+    <div class="col-6">
+        <nb-select placeholder="Tema" [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
             <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
         </nb-select>
     </div>

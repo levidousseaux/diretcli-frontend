@@ -37,15 +37,17 @@
     <div class="dialog-width">
         <nb-card-body>
             <nb-card *ngFor="let recomendation of recomendations">
-                <nb-card-header class="row">
-                    <div class="col">{{recomendation.title}}</div>
-                    <div class="col text-right">
-                        <a type="button" (click)="SetDialogItem(recomendation); open(dialog)" class="mr-2">
-                            <nb-icon icon="edit-outline"></nb-icon>
-                        </a>
-                        <a type="button" (click)="DeleteRecomendation(recomendation)">
-                            <nb-icon icon="close-circle-outline"></nb-icon>
-                        </a>
+                <nb-card-header>
+                    <div class="row">
+                        <div class="col">{{recomendation.title}}</div>
+                        <div class="col text-right">
+                            <a type="button" (click)="SetDialogItem(recomendation); open(dialog)" class="mr-2">
+                                <nb-icon icon="edit-outline"></nb-icon>
+                            </a>
+                            <a type="button" (click)="DeleteRecomendation(recomendation)">
+                                <nb-icon icon="close-circle-outline"></nb-icon>
+                            </a>
+                        </div>
                     </div>
                 </nb-card-header>
                 <nb-card-body>

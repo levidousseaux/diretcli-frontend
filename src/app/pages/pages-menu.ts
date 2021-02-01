@@ -4,22 +4,27 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Doenças',
     icon: 'activity-outline',
-    link: '/disease',
+    link: '/pages/diseases',
     home: true,
   },
   {
     title: 'Recomendações',
     icon: 'book-open-outline',
-    link: '/recomendation',
+    link: '/pages/recomendations',
   },
   {
     title: 'Importar',
     icon: 'folder-add-outline',
-    link: '/import',
+    link: '/pages/import',
   },
   {
     title: 'Configurações',
     icon: 'settings-2-outline',
-    link: '/settings',
+    link: '/pages/settings',
+  },
+  {
+    title: 'Logout',
+    icon: 'log-out-outline',
+    link: '/auth/logout',
   },
 ];

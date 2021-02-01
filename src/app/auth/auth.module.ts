@@ -3,30 +3,36 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
+  NbAlertModule,
   NbButtonModule,
+  NbCheckboxModule,
   NbIconModule,
+  NbInputModule,
   NbLayoutModule,
   NbMenuModule,
   NbSidebarModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { BrowserModule } from '@angular/platform-browser';
+import { LoginComponent } from './login/login.component';
+import { RouterModule } from '@angular/router';
+import { NbAuthModule } from '@nebular/auth';
+import { AuthRoutingModule } from './auth-routing.module';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
-  declarations: [ ],
+  declarations: [ LoginComponent, RegisterComponent ],
   imports: [
     CommonModule,
     FormsModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    NbLayoutModule,
-    NbSidebarModule,
+    RouterModule,
+    NbAlertModule,
+    NbInputModule,
     NbButtonModule,
-    NbIconModule,
-    NbMenuModule,
-    NbEvaIconsModule
+    NbCheckboxModule,
+    NbAuthModule,
+    AuthRoutingModule
   ],
-  exports: [ ]
 })
-export class ComponentsModule { }
+export class AuthModule { }
