@@ -10,6 +10,7 @@ import { SettingsComponent } from "./settings/settings.component";
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
+  canActivate: [AuthGuard],
   children: [
     { path: 'diseases', component: DiseasesComponent, canActivate: [AuthGuard] },
     { path: 'recomendations', component: RecomendationComponent, canActivate: [AuthGuard] },

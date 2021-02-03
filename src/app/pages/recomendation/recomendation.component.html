@@ -39,7 +39,9 @@
             <nb-card *ngFor="let recomendation of recomendations">
                 <nb-card-header>
                     <div class="row">
-                        <div class="col">{{recomendation.title}}</div>
+                        <div class="col">
+                            <h6>{{recomendation.title}}</h6>
+                        </div>
                         <div class="col text-right">
                             <a type="button" (click)="SetDialogItem(recomendation); open(dialog)" class="mr-2">
                                 <nb-icon icon="edit-outline"></nb-icon>
@@ -51,7 +53,20 @@
                     </div>
                 </nb-card-header>
                 <nb-card-body>
-                    {{recomendation.value}}
+                    <div class="row ml-1">
+                        <h6>Recomendação:</h6>
+                    </div>
+                    <div class="row ml-1 mt-2">
+                        <p>{{recomendation.value}}</p>
+                    </div>
+                    <div *ngIf="recomendation.image.data.length > 0">
+                        <div class="row ml-1 mt-3">
+                            <h6>Fluxo:</h6>
+                        </div>
+                        <div class="row ml-1 mt-3">
+                            <a target="_blank" style="margin: auto;" [href]="getImageUrl(recomendation)"><img [src]="getImageUrl(recomendation)" alt="" style="width: 300px; height: 300px;"></a>
+                        </div>
+                    </div>
                 </nb-card-body>
             </nb-card>
         </nb-card-body>
@@ -75,7 +90,12 @@
                             </nb-option>
                         </nb-select>
                     </div>
-
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="btn btn-primary mr-3">Atualizar Imagem<input type="file" style="display: none;" (change)="onSelectImage($event)"></label>
+                            <label class="btn btn-danger" (click)="removeImage()">Remover Imagem</label>
+                        </div>
+                    </div>
                     <input type="number" nbInput fullWidth shape="round" [(ngModel)]="dialogItem.sequence" placeholder="Digite a ordem da recomendação" class="mb-3">
                     <input type="text" nbInput fullWidth shape="round" [(ngModel)]="dialogItem.category" placeholder="Digite a categoria" class="mb-3">
                     <input type="text" nbInput fullWidth shape="round" [(ngModel)]="dialogItem.subcategory" placeholder="Digite a subcategoria" class="mb-3">

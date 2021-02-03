@@ -5,6 +5,9 @@ import { Disease } from 'src/app/models/disease.model';
 import { Recomendation } from 'src/app/models/recomendation.model';
 import { DiseaseService } from 'src/app/services/disease.service';
 import { RecomendationService } from 'src/app/services/recomendation.service';
+import { environment } from 'src/environments/environment';
+import { NotificationService } from 'src/app/services/notification.service';
+import { rejects } from 'assert';
 
 @Component({
   selector: 'app-recomendation',
@@ -15,7 +18,7 @@ export class RecomendationComponent implements OnInit {
 
   @ViewChild('accordion') accordion
   diseases: Disease[]
-  recomendations: Recomendation[] = []
+  recomendations: any[] = []
   selectedSubcategory: string
   selectedDisease: number
   dialogItem: Recomendation
@@ -25,8 +28,9 @@ export class RecomendationComponent implements OnInit {
   recomendationMap: Map<string, Subcategory[]> = new Map<string, Subcategory[]>()
   selectedDiseaseName: string
   windowRef: NbWindowRef
+  imageFile: File = null
 
-  constructor(private diseaseService: DiseaseService, private recomendationService: RecomendationService, private dialogService: NbDialogService, private windowService: NbWindowService) { }
+  constructor(private diseaseService: DiseaseService, private recomendationService: RecomendationService, private dialogService: NbDialogService, private windowService: NbWindowService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.GetDiseases()
@@ -67,15 +71,62 @@ export class RecomendationComponent implements OnInit {
     this.GetRecomendations()
     this.windowRef.close()
   }
+
   async SubmitRecomendation() {
     if (this.accordionType == 'create') {
       await this.recomendationService.CreateRecomendation(this.dialogItem)
+        .then(res => {
+          if (res.status == 200) {
+            this.notificationService.showToast('success', 'Recomendação criada com sucesso!')
+          }
+          else {
+            this.notificationService.showToast('danger', 'Ocorreu um erro na criação da recomendação!')
+          }
+        })
     } else {
-      await this.recomendationService.UpdateRecomendation(this.dialogItem)
-    }
-    this.windowRef.close()
-    await this.GetRecomendations()
+      const fd: FormData = new FormData()
+      if (this.imageFile != null) {
+        fd.append('upload', this.imageFile, this.imageFile.name)
+        fd.append('id', this.dialogItem.id.toString())
+        await this.recomendationService.UploadImage(fd).then(
+          res => {
+            if (res.status != 200) {
+              this.notificationService.showToast('danger', 'Ocorreu um erro no upload de imagem!')
+            }
+          })
+      }
 
+      await this.recomendationService.UpdateRecomendation(this.dialogItem).then(res => {
+        if (res.status == 200) {
+          this.notificationService.showToast('success', 'Recomendação atualizada com sucesso!')
+        }
+        else {
+          this.notificationService.showToast('danger', 'Ocorreu um erro na criação da recomendação!')
+        }
+      })
+    }
+    setTimeout(()=> { window.location.reload(); }, 1000)
+  }
+
+  getImageUrl(recomendation):string {
+    return `${environment.backend_endpoint}/recomendations/image/${recomendation.id}`
+  }
+
+  async removeImage() {
+    await this.recomendationService.DeleteImage(this.dialogItem.id).then(res => {
+      if (res.status == 200) {
+        this.notificationService.showToast('success', 'Image removida!')
+      }
+      else {
+        this.notificationService.showToast('danger', 'Ocorreu um erro na criação da recomendação!')
+      }
+    }, error => {
+      console.log('errooo')
+    })
+  }
+
+  onSelectImage(event) {
+    this.imageFile = <File>event.target.files[0]
   }
 
   open(dialog: TemplateRef<any>) {

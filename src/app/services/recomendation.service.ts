@@ -46,12 +46,21 @@ export class RecomendationService {
     return this.http.post(`${environment.backend_endpoint}/recomendations/import`, recomendations, {observe: 'response'}).toPromise()
   }
 
-  UpdateRecomendation(recomendation: Recomendation): Promise<any>  {
-    return this.http.put(`${environment.backend_endpoint}/recomendations/update`, recomendation, {observe: 'response'}).toPromise()
+  async UpdateRecomendation(recomendation: any): Promise<any>  {
+    recomendation.image.data = []
+    return await this.http.put(`${environment.backend_endpoint}/recomendations/update`, recomendation, {observe: 'response'}).toPromise()
   }
 
   DeleteRecomendation(recomendation: Recomendation): Promise<any>  {
     return this.http.delete(`${environment.backend_endpoint}/recomendations/delete/${recomendation.id}`, {observe: 'response'}).toPromise()
+  }
+
+  async UploadImage(fd: FormData): Promise<any>  {
+    return await this.http.post(`${environment.backend_endpoint}/recomendations/upload`, fd, {observe: 'response'}).toPromise()
+  }
+
+  DeleteImage(id: number): Promise<any>  {
+    return this.http.delete(`${environment.backend_endpoint}/recomendations/image/${id}`, {observe: 'response'}).toPromise()
   }
 
 }
