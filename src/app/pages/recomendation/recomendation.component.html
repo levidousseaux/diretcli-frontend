@@ -21,8 +21,8 @@
                     <nb-accordion-item-header>{{category.key}}</nb-accordion-item-header>
                     <nb-accordion-item-body>
                         <nb-list>
-                            <nb-list-item *ngFor="let subcategory of recomendationMap.get(category.key)">
-                                <a type="button" (click)="SetRecomendationDialog(subcategory.recomendations); openWindow(dialogRecomendations);">{{ subcategory.name }}</a>
+                            <nb-list-item *ngFor="let subcategory of category.value | keyvalue">
+                                <a type="button" (click)="SetRecomendationDialog(subcategory.value); openWindow(dialogRecomendations);">{{ subcategory.key }}</a>
                             </nb-list-item>
                         </nb-list>
                     </nb-accordion-item-body>

@@ -11,28 +11,23 @@ export class RecomendationService {
 
   constructor(private http: HttpClient) { }
 
-  async GetRecomendationByDisease(diseaseId: number): Promise<Map<string, Subcategory[]>>  {
+  async GetRecomendationByDisease(diseaseId: number): Promise<Map<string, Map<string, Recomendation[]>>>  {
 
-    let recomendationMap: Map<string, Subcategory[]> = new Map<string, Subcategory[]>()
+    let recomendationMap: Map<string, Map<string, Recomendation[]>> = new Map<string, Map<string, Recomendation[]>>()
     this.http.get<Recomendation[]>(`${environment.backend_endpoint}/recomendations/${diseaseId}`).subscribe(async (recomendations) => {
       await recomendations.forEach(async recomendation => {
         if (recomendationMap.has(recomendation.category)) {
-          let sublist = await recomendationMap.get(recomendation.category)
-          let inserted = false
+          let subcategoryMap = await recomendationMap.get(recomendation.category)
 
-          await sublist.forEach((sub) => {
-            if (sub.name == recomendation.subcategory) {
-              sub.recomendations.push(recomendation)
-              inserted = true
-            }
-          })
+          if (subcategoryMap.has(recomendation.subcategory))
+            subcategoryMap.get(recomendation.subcategory).push(recomendation)
+          else
+            subcategoryMap.set(recomendation.subcategory, [recomendation] )
 
-          if(!inserted)
-            sublist.push( new Subcategory(recomendation))
-
-          } else {
-            recomendationMap.set(recomendation.category, [ new Subcategory(recomendation) ]);
-          }
+        } else {
+          recomendationMap.set(recomendation.category, new Map<string, Recomendation[]>());
+          recomendationMap.get(recomendation.category).set( recomendation.subcategory, [ recomendation ])
+        }
       })
     })
     return recomendationMap

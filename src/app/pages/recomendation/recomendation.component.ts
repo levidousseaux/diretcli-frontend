@@ -7,7 +7,6 @@ import { DiseaseService } from 'src/app/services/disease.service';
 import { RecomendationService } from 'src/app/services/recomendation.service';
 import { environment } from 'src/environments/environment';
 import { NotificationService } from 'src/app/services/notification.service';
-import { rejects } from 'assert';
 
 @Component({
   selector: 'app-recomendation',
@@ -25,7 +24,7 @@ export class RecomendationComponent implements OnInit {
   createItem: Recomendation
   title: string
   accordionType: string
-  recomendationMap: Map<string, Subcategory[]> = new Map<string, Subcategory[]>()
+  recomendationMap: Map<string, Map<string, Recomendation[]>> = new Map<string, Map<string, Recomendation[]>>()
   selectedDiseaseName: string
   windowRef: NbWindowRef
   imageFile: File = null
@@ -42,6 +41,7 @@ export class RecomendationComponent implements OnInit {
 
   async GetRecomendations() {
     await this.recomendationService.GetRecomendationByDisease(this.selectedDisease).then(res => this.recomendationMap = res)
+    console.log(this.recomendationMap)
   }
 
   SetDiseaseName() {
