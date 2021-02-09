@@ -7,6 +7,9 @@ import { DiseaseService } from 'src/app/services/disease.service';
 import { RecomendationService } from 'src/app/services/recomendation.service';
 import { environment } from 'src/environments/environment';
 import { NotificationService } from 'src/app/services/notification.service';
+import { Comment } from 'src/app/models/comment.model';
+import { CommentService } from 'src/app/services/comment.service';
+import { Source } from 'src/app/models/source.model';
 
 @Component({
   selector: 'app-recomendation',
@@ -18,6 +21,9 @@ export class RecomendationComponent implements OnInit {
   @ViewChild('accordion') accordion
   diseases: Disease[]
   recomendations: any[] = []
+  comments: Comment[] = []
+  sources: Comment[] = []
+  comment: Comment = new Comment()
   selectedSubcategory: string
   selectedDisease: number
   dialogItem: Recomendation
@@ -28,8 +34,10 @@ export class RecomendationComponent implements OnInit {
   selectedDiseaseName: string
   windowRef: NbWindowRef
   imageFile: File = null
+  selectedRecomendation: number
+  sourceItem: Source = new Source()
 
-  constructor(private diseaseService: DiseaseService, private recomendationService: RecomendationService, private dialogService: NbDialogService, private windowService: NbWindowService, private notificationService: NotificationService) { }
+  constructor(private diseaseService: DiseaseService, private commentService: CommentService, private recomendationService: RecomendationService, private dialogService: NbDialogService, private windowService: NbWindowService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.GetDiseases()
@@ -40,8 +48,8 @@ export class RecomendationComponent implements OnInit {
   }
 
   async GetRecomendations() {
+    this.recomendationMap = new Map<string, Map<string, Recomendation[]>>()
     await this.recomendationService.GetRecomendationByDisease(this.selectedDisease).then(res => this.recomendationMap = res)
-    console.log(this.recomendationMap)
   }
 
   SetDiseaseName() {
@@ -70,6 +78,65 @@ export class RecomendationComponent implements OnInit {
     await this.recomendationService.DeleteRecomendation(recomendation)
     this.GetRecomendations()
     this.windowRef.close()
+  }
+
+  async GetComments(id: number) {
+    await this.commentService.GetByRecomendationId(id).then(response => { this.comments = response })
+  }
+
+  async SendComment() {
+    this.comment.user = 'Levi Melo'
+    this.comment.id_recomendation = this.selectedRecomendation
+    await this.commentService.Create(this.comment).then(res => {
+        this.GetComments(this.selectedRecomendation)
+        if (res.status == 201) {
+          this.notificationService.showToast('success', 'Comentário criado com sucesso!')
+        }
+        else {
+          this.notificationService.showToast('danger', 'Ocorreu um erro na criação da recomendação!')
+        }
+        this.comment = new Comment()
+      })
+  }
+
+  async DeleteComment(id: number) {
+    await this.commentService.Delete(id).then(res => {
+      this.GetComments(this.selectedRecomendation)
+      if (res.status == 200) {
+        this.notificationService.showToast('success', 'Comentário excluido com sucesso!')
+      }
+      else {
+        this.notificationService.showToast('danger', 'Ocorreu um erro!')
+      }
+    })
+  }
+
+  async SubmitSource() {
+    this.sourceItem.id_recomendation = this.selectedRecomendation
+    await this.recomendationService.SubmitSource(this.sourceItem).then(res => {
+        this.GetRecomendations()
+        if (res.status == 201) {
+          this.notificationService.showToast('success', 'Comentário criado com sucesso!')
+        }
+        else {
+          this.notificationService.showToast('danger', 'Ocorreu um erro na criação da recomendação!')
+        }
+        this.sourceItem = new Source()
+        this.windowRef.close()
+      })
+  }
+
+  async DeleteSource(id: number) {
+    await this.recomendationService.DeleteSource(id).then(res => {
+      if (res.status == 200) {
+        this.notificationService.showToast('success', 'Comentário excluido com sucesso!')
+      }
+      else {
+        this.notificationService.showToast('danger', 'Ocorreu um erro!')
+      }
+      this.GetRecomendations()
+      this.windowRef.close()
+    })
   }
 
   async SubmitRecomendation() {

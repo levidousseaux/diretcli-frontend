@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DiseasesComponent } from './diseases/diseases.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RecomendationComponent } from './recomendation/recomendation.component';
-import { NbAccordionModule, NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbLayoutModule, NbListModule, NbMenuModule, NbSelectModule, NbSidebarModule, NbToastrModule, NbToastrService, NbWindowModule } from '@nebular/theme';
+import { NbAccordionModule, NbButtonModule, NbCardModule, NbDialogModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule, NbListModule, NbMenuModule, NbSelectModule, NbSidebarModule, NbToastrModule, NbToastrService, NbWindowModule } from '@nebular/theme';
 import { ImportComponent } from './import/import.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NbAuthModule } from '@nebular/auth';
@@ -36,7 +36,8 @@ import { PagesRoutingModule } from './pages-routing.module';
     NbLayoutModule,
     NbAuthModule,
     NbMenuModule,
-    PagesRoutingModule
+    PagesRoutingModule,
+    NbFormFieldModule
   ],
   exports: [
     PageNotFoundComponent,
