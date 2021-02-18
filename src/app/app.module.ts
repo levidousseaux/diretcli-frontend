@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +18,8 @@ const formSetting: any = {
     success: true,
   },
 };
+
+export let InjectorInstance: Injector;
 
 @NgModule({
   declarations: [
@@ -100,4 +102,10 @@ const formSetting: any = {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule {
+  constructor(private injector: Injector)
+  {
+    InjectorInstance = this.injector;
+  }
+}

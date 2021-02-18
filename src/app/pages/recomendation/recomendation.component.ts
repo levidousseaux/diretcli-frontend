@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NbDialogService, NbWindowRef, NbWindowService } from '@nebular/theme';
-import { Subcategory } from 'src/app/models/subcategory';
 import { Disease } from 'src/app/models/disease.model';
 import { Recomendation } from 'src/app/models/recomendation.model';
 import { DiseaseService } from 'src/app/services/disease.service';
@@ -10,6 +9,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { Comment } from 'src/app/models/comment.model';
 import { CommentService } from 'src/app/services/comment.service';
 import { Source } from 'src/app/models/source.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-recomendation',
@@ -85,7 +85,7 @@ export class RecomendationComponent implements OnInit {
   }
 
   async SendComment() {
-    this.comment.user = 'Levi Melo'
+    this.comment.user = UserService.user.name
     this.comment.id_recomendation = this.selectedRecomendation
     await this.commentService.Create(this.comment).then(res => {
         this.GetComments(this.selectedRecomendation)
@@ -200,11 +200,12 @@ export class RecomendationComponent implements OnInit {
     this.dialogService.open(dialog, {
       context: {
         title: 'This is a title passed to the dialog component',
-      }
+      },
+      hasScroll: true
     });
   }
 
-  openWindow(dialog: TemplateRef<any>) {
-    this.windowRef = this.windowService.open(dialog, { title: this.selectedSubcategory });
+  openWindow(dialog: TemplateRef<any>, title: string) {
+    this.windowRef = this.windowService.open(dialog, { title: title });
   }
 }

@@ -22,7 +22,7 @@
                     <nb-accordion-item-body>
                         <nb-list>
                             <nb-list-item *ngFor="let subcategory of category.value | keyvalue">
-                                <a type="button" (click)="SetRecomendationDialog(subcategory.value); openWindow(dialogRecomendations);">{{ subcategory.key }}</a>
+                                <a type="button" (click)="SetRecomendationDialog(subcategory.value); openWindow(dialogRecomendations, subcategory.key);">{{ subcategory.key }}</a>
                             </nb-list-item>
                         </nb-list>
                     </nb-accordion-item-body>
@@ -43,7 +43,7 @@
                             <h6>{{recomendation.title}}</h6>
                         </div>
                         <div class="col text-right">
-                            <a type="button" (click)="this.selectedRecomendation = recomendation.id; GetComments(recomendation.id); open(commentDialog)" class="mr-2">
+                            <a type="button" (click)="this.selectedRecomendation = recomendation.id; GetComments(recomendation.id); openWindow(commentDialog, 'Comentários')" class="mr-2">
                                 <nb-icon icon="message-circle-outline"></nb-icon>
                             </a>
                             <a type="button" (click)="SetDialogItem(recomendation); open(dialog)" class="mr-2">
@@ -101,7 +101,7 @@
                 </nb-card-header>
                 <nb-card-body>
                     <div class="row">
-                        <input type="text" nbInput fullWidth shape="round" [(ngModel)]="sourceItem.value" placeholder="Digite a categoria" class="mb-3">
+                        <input type="text" nbInput fullWidth shape="round" [(ngModel)]="sourceItem.value" placeholder="Digite a fonte" class="mb-3">
                     </div>
                     <div class="row">
                         <div class="col text-right">
@@ -156,47 +156,31 @@
 </ng-template>
 
 <ng-template #commentDialog let-ref="dialogRef">
-    <div class="row justify-content-center dialog-width">
-        <div class="col-md-9 col-9">
-            <nb-card>
-                <nb-card-header>
-                    <div class="row">
-                        <div class="col">
-                            <h6>Comentários</h6>
+    <div class="dialog-width">
+        <nb-card-body>
+            <div *ngFor="let comment of comments">
+                <nb-card>
+                    <nb-card-header>
+                        <div class="row">
+                            <div class="col">
+                                {{comment.user}}
+                            </div>
+                            <div class="col text-right">
+                                <a type="button" (click)="DeleteComment(comment.id)">
+                                    <nb-icon icon="close-circle-outline"></nb-icon>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col text-right">
-                            <a type="button" (click)="ref.close()">
-                                <nb-icon icon="close-circle-outline"></nb-icon>
-                            </a>
-                        </div>
-                    </div>
-                </nb-card-header>
-                <nb-card-body>
-                    <div *ngFor="let comment of comments">
-                        <nb-card>
-                            <nb-card-header>
-                                <div class="row">
-                                    <div class="col">
-                                        {{comment.user}}
-                                    </div>
-                                    <div class="col text-right">
-                                        <a type="button" (click)="DeleteComment(comment.id)">
-                                            <nb-icon icon="close-circle-outline"></nb-icon>
-                                        </a>
-                                    </div>
-                                </div>
-                            </nb-card-header>
-                            <nb-card-body>
-                                {{comment.value}}
-                            </nb-card-body>
-                        </nb-card>
-                    </div>
-                    <nb-form-field>
-                        <textarea rows="3" type="text" nbInput fullWidth shape="round" [(ngModel)]="comment.value" placeholder="Escreva seu comentario"></textarea>
-                        <button nbSuffix nbButton ghost (click)="SendComment()"><nb-icon icon="arrow-forward-outline"></nb-icon></button>
-                    </nb-form-field>
-                </nb-card-body>
-            </nb-card>
-        </div>
+                    </nb-card-header>
+                    <nb-card-body>
+                        {{comment.value}}
+                    </nb-card-body>
+                </nb-card>
+            </div>
+            <nb-form-field>
+                <textarea rows="3" type="text" nbInput fullWidth shape="round" [(ngModel)]="comment.value" placeholder="Escreva seu comentario"></textarea>
+                <button nbSuffix nbButton ghost (click)="SendComment()"><nb-icon icon="arrow-forward-outline"></nb-icon></button>
+            </nb-form-field>
+        </nb-card-body>
     </div>
 </ng-template>
