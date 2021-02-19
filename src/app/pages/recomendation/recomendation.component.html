@@ -6,7 +6,7 @@
             </nb-option>
         </nb-select>
     </div>
-    <div class="col text-right mr-2">
+    <div *ngIf="user.role == 'admin'" class="col text-right mr-2">
         <a type="button" (click)="SetDialogItem(null); open(dialog)">
             <nb-icon icon="plus-outline"></nb-icon>
         </a>
@@ -46,10 +46,10 @@
                             <a type="button" (click)="this.selectedRecomendation = recomendation.id; GetComments(recomendation.id); openWindow(commentDialog, 'Comentários')" class="mr-2">
                                 <nb-icon icon="message-circle-outline"></nb-icon>
                             </a>
-                            <a type="button" (click)="SetDialogItem(recomendation); open(dialog)" class="mr-2">
+                            <a *ngIf="user.role == 'admin'" type="button" (click)="SetDialogItem(recomendation); open(dialog)" class="mr-2">
                                 <nb-icon icon="edit-outline"></nb-icon>
                             </a>
-                            <a type="button" (click)="DeleteRecomendation(recomendation)">
+                            <a *ngIf="user.role == 'admin'" type="button" (click)="DeleteRecomendation(recomendation)">
                                 <nb-icon icon="close-circle-outline"></nb-icon>
                             </a>
                         </div>
@@ -70,10 +70,10 @@
                             <a target="_blank" style="margin: auto;" [href]="getImageUrl(recomendation)"><img [src]="getImageUrl(recomendation)" alt="" style="width: 300px; height: 300px;"></a>
                         </div>
                     </div>
-                    <div *ngIf="recomendation.sources?.length > 0">
+                    <div>
                         <div class="row ml-1 mt-3 mb-2">
                             <h6>Fontes:</h6>
-                            <div class="ml-2 mt-1">
+                            <div *ngIf="user.role == 'admin'" class="ml-2 mt-1">
                                 <a type="button" (click)="this.selectedRecomendation = recomendation.id; open(sourceDialog);">
                                     <nb-icon icon="plus-circle-outline"></nb-icon>
                                 </a>
@@ -81,7 +81,7 @@
                         </div>
                         <div class="row ml-1 mt-1" *ngFor="let source of recomendation.sources">
                             <a class="mr-2" target="_blank" [href]="source.value">{{source.value}}</a>
-                            <a type="button" (click)="DeleteSource(source.id)">
+                            <a *ngIf="user.role == 'admin'" type="button" (click)="DeleteSource(source.id)">
                                 <nb-icon icon="close-circle-outline"></nb-icon>
                             </a>
                         </div>
@@ -165,7 +165,7 @@
                             <div class="col">
                                 {{comment.user}}
                             </div>
-                            <div class="col text-right">
+                            <div *ngIf="user.role == 'admin'" class="col text-right">
                                 <a type="button" (click)="DeleteComment(comment.id)">
                                     <nb-icon icon="close-circle-outline"></nb-icon>
                                 </a>

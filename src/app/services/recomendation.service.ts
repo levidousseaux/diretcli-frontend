@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Subcategory } from '../models/subcategory';
 import { SourceService } from './sources.service';
 import { Source } from '../models/source.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -41,10 +42,12 @@ export class RecomendationService {
   }
 
   CreateRecomendation(recomendation: Recomendation): Promise<any> {
+    recomendation.user = UserService.user.name
     return this.http.post(`${environment.backend_endpoint}/recomendations/create`, recomendation, {observe: 'response'}).toPromise()
   }
 
   CreateRecomendations(recomendations: Recomendation[]): Promise<any> {
+    recomendations.forEach(recomendation => recomendation.user = UserService.user.name)
     return this.http.post(`${environment.backend_endpoint}/recomendations/import`, recomendations, {observe: 'response'}).toPromise()
   }
 

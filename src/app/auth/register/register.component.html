@@ -59,8 +59,8 @@
     </div>
 
     <div class="form-control-group">
-        <label class="label" for="input-re-password">Repeat password:</label>
-        <input nbInput [(ngModel)]="user.confirmPassword" #rePass="ngModel" type="password" id="input-re-password" name="rePass" placeholder="Confirm Password" fullWidth fieldSize="large" [status]="rePass.dirty ? (rePass.invalid || password.value != rePass.value  ? 'danger' : 'success') : 'basic'"
+        <label class="label" for="input-re-password">Confirme a senha:</label>
+        <input nbInput [(ngModel)]="user.confirmPassword" #rePass="ngModel" type="password" id="input-re-password" name="rePass" placeholder="Confirme a senha" fullWidth fieldSize="large" [status]="rePass.dirty ? (rePass.invalid || password.value != rePass.value  ? 'danger' : 'success') : 'basic'"
             [required]="getConfigValue('forms.validation.password.required')" [attr.aria-invalid]="rePass.invalid && rePass.touched ? true : null">
         <ng-container *ngIf="rePass.invalid && rePass.touched">
             <p class="caption status-danger" *ngIf="rePass.errors?.required">

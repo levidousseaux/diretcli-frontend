@@ -10,6 +10,7 @@ export class Recomendation {
   value: string
   image: Buffer
   sources: Source[]
+  user: string
 
   constructor(id_disease?: number, category?: string, subcategory?: string, sequence?: number, title?: string, value?: string, image?: Buffer) {
     this.id_disease = id_disease

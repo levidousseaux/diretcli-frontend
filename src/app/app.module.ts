@@ -19,8 +19,6 @@ const formSetting: any = {
   },
 };
 
-export let InjectorInstance: Injector;
-
 @NgModule({
   declarations: [
     AppComponent
@@ -85,7 +83,7 @@ export let InjectorInstance: Injector;
           },
           token: {
             class: NbAuthJWTToken,
-            key: 'token',
+            key: 'token'
           },
         }),
       ],
@@ -103,9 +101,4 @@ export let InjectorInstance: Injector;
   bootstrap: [AppComponent]
 })
 
-export class AppModule {
-  constructor(private injector: Injector)
-  {
-    InjectorInstance = this.injector;
-  }
-}
+export class AppModule {  }

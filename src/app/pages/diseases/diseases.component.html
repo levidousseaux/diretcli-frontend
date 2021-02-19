@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col text-right">
+    <div *ngIf="user.role == 'admin'" class="col text-right">
         <a type="button">
             <nb-icon icon="plus-outline" (click)="SetDialogItem(null); open(dialog)"></nb-icon>
         </a>
@@ -11,20 +11,22 @@
         <table class="table bg-transparent text-basic">
             <thead>
                 <tr>
-                    <th scope="col"><a>Nome</a></th>
-                    <th scope="col" class="text-center"><a>Alterar</a></th>
-                    <th scope="col" class="text-center"><a>Excluir</a></th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Descrição</th>
+                    <th *ngIf="user.role == 'admin'" scope="col" class="text-center">Alterar</th>
+                    <th *ngIf="user.role == 'admin'" scope="col" class="text-center">Excluir</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let disease of diseases">
                     <td>{{disease.name}}</td>
-                    <td class="text-center">
+                    <td>{{disease.resume}}</td>
+                    <td *ngIf="user.role == 'admin'" class="text-center">
                         <a type="button" (click)="SetDialogItem(disease); open(dialog)">
                             <nb-icon icon="edit-outline"></nb-icon>
                         </a>
                     </td>
-                    <td class="text-center">
+                    <td *ngIf="user.role == 'admin'" class="text-center">
                         <a type="button" (click)="DeleteDisease(disease.id)">
                             <nb-icon icon="close-circle-outline"></nb-icon>
                         </a>
@@ -39,7 +41,12 @@
     <nb-card>
         <nb-card-header>{{title}}</nb-card-header>
         <nb-card-body>
-            <input type="text" nbInput fullWidth [(ngModel)]="dialogItem.name" shape="round" placeholder="Digite o nome da doença" class="mb-3">
+            <div class="row">
+                <input type="text" nbInput fullWidth [(ngModel)]="dialogItem.name" shape="round" placeholder="Digite o nome da doença" class="mb-3">
+            </div>
+            <div class="row">
+                <input type="text" nbInput fullWidth [(ngModel)]="dialogItem.resume" shape="round" placeholder="Digite a descrição" class="mb-3">
+            </div>
         </nb-card-body>
         <nb-card-footer>
             <div class="text-right">

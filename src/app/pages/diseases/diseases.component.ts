@@ -1,9 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { Disease } from 'src/app/models/disease.model';
-import { Recomendation } from 'src/app/models/recomendation.model';
 import { DiseaseService } from 'src/app/services/disease.service';
-import { RecomendationService } from 'src/app/services/recomendation.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-diseases',
@@ -14,12 +13,12 @@ export class DiseasesComponent implements OnInit {
 
   diseases: Disease[]
   dialogItem: Disease
-  recomendations: Recomendation[]
   selectedDisease: number
   title: string
   accordionType: string
+  user = UserService.user
 
-  constructor(private diseaseService: DiseaseService, private recomendationService: RecomendationService, private dialogService: NbDialogService) { }
+  constructor(private diseaseService: DiseaseService, private dialogService: NbDialogService) { }
 
   ngOnInit(): void {
     this.GetDiseases()

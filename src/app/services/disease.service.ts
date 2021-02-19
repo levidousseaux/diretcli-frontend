@@ -19,6 +19,7 @@ export class DiseaseService {
   }
 
   UpdateDisease(disease: Disease): Promise<any>  {
+    console.log(disease.id)
     return this.http.put(`${environment.backend_endpoint}/diseases/update`, disease).toPromise()
   }
 

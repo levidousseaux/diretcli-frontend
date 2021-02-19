@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { NbSidebarService } from '@nebular/theme';
-import { AuthService } from '../services/auth.service';
-
 import { MENU_ITEMS } from './pages-menu';
 
 @Component({
@@ -12,16 +10,10 @@ export class PagesComponent {
 
   menu = MENU_ITEMS
 
-  constructor(private sidebarService: NbSidebarService,
-              public authService: AuthService) {
+  constructor(private sidebarService: NbSidebarService) {
   }
 
-  ngOnInit() {
-  }
-
-  isLoggedIn() {
-    return this.authService.isLoggedIn;
-  }
+  ngOnInit() {  }
 
   toggleSidebar(): boolean {
     this.sidebarService.toggle(true, 'menu-sidebar');

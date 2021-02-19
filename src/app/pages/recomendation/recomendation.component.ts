@@ -36,6 +36,7 @@ export class RecomendationComponent implements OnInit {
   imageFile: File = null
   selectedRecomendation: number
   sourceItem: Source = new Source()
+  user = UserService.user
 
   constructor(private diseaseService: DiseaseService, private commentService: CommentService, private recomendationService: RecomendationService, private dialogService: NbDialogService, private windowService: NbWindowService, private notificationService: NotificationService) { }
 
@@ -116,10 +117,10 @@ export class RecomendationComponent implements OnInit {
     await this.recomendationService.SubmitSource(this.sourceItem).then(res => {
         this.GetRecomendations()
         if (res.status == 201) {
-          this.notificationService.showToast('success', 'Comentário criado com sucesso!')
+          this.notificationService.showToast('success', 'Fonte criada com sucesso!')
         }
         else {
-          this.notificationService.showToast('danger', 'Ocorreu um erro na criação da recomendação!')
+          this.notificationService.showToast('danger', 'Ocorreu um erro na criação da fonte!')
         }
         this.sourceItem = new Source()
         this.windowRef.close()
@@ -129,7 +130,7 @@ export class RecomendationComponent implements OnInit {
   async DeleteSource(id: number) {
     await this.recomendationService.DeleteSource(id).then(res => {
       if (res.status == 200) {
-        this.notificationService.showToast('success', 'Comentário excluido com sucesso!')
+        this.notificationService.showToast('success', 'Fonte excluida com sucesso!')
       }
       else {
         this.notificationService.showToast('danger', 'Ocorreu um erro!')
